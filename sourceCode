@@ -1,0 +1,84 @@
+public class Test{
+
+     public static void main(String []args){
+         
+        System.out.println("polymorphism example");
+        Teacher nabil = new Teacher("Nabiel");
+        Student nada = new Student("nada","0598",186);
+        Person shahd = new Teacher("shahd","0599",2000);
+        // toDo() works in different form according the object that call the function. >> polymorphism
+        nabil.toDo();
+        nada.toDo(); 
+        shahd.startWorking(shahd);
+        nada.checkGrade();         
+     }     
+}
+
+interface Base{
+    
+    // interface class contains only abstract methods
+    final String organizationName = "Jund Alquraan";
+    public void toDo(); // abstract method 
+}
+
+class Person{
+
+    String name;
+    String phone;
+    
+    void startWorking(Person p){ 
+        if (p instanceof Teacher)//polymorphism
+             System.out.println(p.name +" is an employee ");
+        else
+            System.out.println(p.name +" is not an employee");
+    }
+}
+
+class Teacher extends Person implements Base{
+    
+    private int salary;
+    
+    Teacher(String name){
+        this.name = name;
+    }
+    Teacher(String name, String phone, int salary ){
+        this.name = name;
+        this.phone = phone;
+        setSalary(salary);
+    }
+    private void setSalary(int slry){
+        this.salary = slry;
+    }
+    int getSalary(){
+        return this.salary;
+    }
+    public void toDo(){ //abstract function is implemented in subclass  
+      System.out.println("the teacher is teaching "); 
+    }
+}
+
+class Student extends Person implements Base{
+    
+    int grade;
+    Student (String name, String phone, int grade){
+        this.name = name;
+        this.phone = phone;
+        this.grade = grade;  
+    }
+    public void toDo(){ // toDo function must be implemented in subclass or it must be defined as abstract class 
+      System.out.println("the student is reciting"); 
+    }
+    void teacherInfo(Teacher t){ //stamp coupling
+        System.out.println("my teacher name is : "+t.name);   
+    }
+    void calculatGrade(){
+        grade = grade/2;
+    }
+    void checkGrade(){  
+        calculatGrade(); //data coupling 
+        if(grade > 50)
+            System.out.println("successfull");
+        else
+            System.out.println("failed");     
+    }   
+}
